@@ -30,13 +30,6 @@ jobs:
 
     - name: Install dependencies
       run: npm install --force
-
-    - name: Prebuild Angular App
-      run: npm run build-prod
-      env:
-        APP_DEBUG: production
-        APP_NAME: ${{ github.repository }}
-        APP_VERSION: ${{ github.ref_name }}
   
     - name: Build Angular App
       run: npm run build -- --configuration=production
