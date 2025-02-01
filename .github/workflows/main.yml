@@ -54,7 +54,7 @@ jobs:
         docker push ${{ github.repository }}:${{ github.ref_name }}
 
   deploy-github:
-    name: Build Applicationc
+    name: Publish in Github Pages
     runs-on: ubuntu-latest
     environment: production
     steps:
@@ -94,7 +94,7 @@ jobs:
         curl -H "Content-Type: application/json" \
         -X POST \
         -d '{"username": "Bot GitHub", "content": "✅ **Sucesso ao gerar versão!**\nRepositório: `${{ github.repository }}`\nAmbiente: Produção\nBranch: `${{ github.ref_name }}`"}' \
-        ${{ secrets.DISCORD_WEBHOOK_URL }}
+        ${{ secrets.DISCORD_WEBHOOK_URL }} || true
 
     - name: Notify Discord (Failure)
       if: failure()
@@ -102,4 +102,4 @@ jobs:
         curl -H "Content-Type: application/json" \
         -X POST \
         -d '{"username": "Bot GitHub", "content": "❌ **Falha ao gerar versão!**\nRepositório: `${{ github.repository }}`\nAmbiente: Produção\nBranch: `${{ github.ref_name }}`"}' \
-        ${{ secrets.DISCORD_WEBHOOK_URL }}
+        ${{ secrets.DISCORD_WEBHOOK_URL }} || true
