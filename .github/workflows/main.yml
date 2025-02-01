@@ -84,7 +84,7 @@ jobs:
 
   report-status:
     name: Report Build Status
-    needs: build
+    needs: [publish-docker, deploy-github]
     environment: production
     runs-on: ubuntu-latest
 
