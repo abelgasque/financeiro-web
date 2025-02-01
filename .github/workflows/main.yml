@@ -6,6 +6,18 @@ on:
     tags: 'v*'
 
 jobs:
+  report-started:
+    name: Publish in Docker Hub
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Notify Discord (Build Started)
+        run: |
+          curl -H "Content-Type: application/json" \
+          -X POST \
+          -d '{"username": "Bot Docker", "content": "🚀 **Build iniciado!**\nRepositório: `${{ github.repository }}`\nAmbiente: Produção\nBranch: `${{ github.ref_name }}`"}' \
+          ${{ secrets.DISCORD_WEBHOOK_URL }} || true
+
   publish-docker:
     name: Publish in Docker Hub
     runs-on: ubuntu-latest
@@ -14,12 +26,6 @@ jobs:
     - name: Checkout Code
       uses: actions/checkout@v4
 
-    - name: Notify Discord (Build Started)
-      run: |
-        curl -H "Content-Type: application/json" \
-        -X POST \
-        -d '{"username": "Bot Docker", "content": "🚀 **Build Docker Hub!**\nRepositório: `${{ github.repository }}`\nAmbiente: Produção\nBranch: `${{ github.ref_name }}`"}' \
-        ${{ secrets.DISCORD_WEBHOOK_URL }} || true
 
     - name: Setup Node.js
       uses: actions/setup-node@v2
@@ -54,13 +60,6 @@ jobs:
     steps:
     - name: Checkout Code
       uses: actions/checkout@v4
-
-    - name: Notify Discord (Build Started)
-      run: |
-        curl -H "Content-Type: application/json" \
-        -X POST \
-        -d '{"username": "Bot GitHub", "content": "🚀 **Build Github Pages!**\nRepositório: `${{ github.repository }}`\nAmbiente: Produção\nBranch: `${{ github.ref_name }}`"}' \
-        ${{ secrets.DISCORD_WEBHOOK_URL }} || true
 
     - name: Setup Node.js
       uses: actions/setup-node@v2
