@@ -1,0 +1,70 @@
+name: Deploy in Github pages
+
+on:
+  push:
+    branches: 'develop'
+    tags: 'v*'
+
+jobs:
+  report-started:
+    name: Publish in Docker Hub
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Notify Discord (Build Started)
+        run: |
+          curl -H "Content-Type: application/json" \
+          -X POST \
+          -d '{"username": "Bot Docker", "content": "🚀 **Build iniciado!**\nRepositório: `${{ github.repository }}`\nAmbiente: Produção\nBranch: `${{ github.ref_name }}`"}' \
+          ${{ secrets.DISCORD_WEBHOOK_URL }} || true
+
+  deploy-github:
+    name: Publish in Github Pages
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '12.x'
+
+    - name: Install dependencies
+      run: npm install --legacy-peer-deps && npm i -g angular-cli-ghpages
+      
+    - name: Build Angular App
+      run: npm run build --configuration=production --output-path=dist --base-href=/financeiro-web/
+  
+    - name: Install Github Pages
+      run: npm i -g angular-cli-ghpages
+  
+    - name: Deploy to GitHub Pages
+      uses: JamesIves/github-pages-deploy-action@v4
+      with:
+        branch: gh-pages
+        folder: dist
+
+  report-status:
+    name: Report Build Status
+    needs: [deploy-github]
+    environment: production
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Notify Discord (Success)
+      if: success()
+      run: |
+        curl -H "Content-Type: application/json" \
+        -X POST \
+        -d '{"username": "Bot GitHub", "content": "✅ **Sucesso ao gerar versão!**\nRepositório: `${{ github.repository }}`\nAmbiente: Produção\nBranch: `${{ github.ref_name }}`"}' \
+        ${{ secrets.DISCORD_WEBHOOK_URL }} || true
+
+    - name: Notify Discord (Failure)
+      if: failure()
+      run: |
+        curl -H "Content-Type: application/json" \
+        -X POST \
+        -d '{"username": "Bot GitHub", "content": "❌ **Falha ao gerar versão!**\nRepositório: `${{ github.repository }}`\nAmbiente: Produção\nBranch: `${{ github.ref_name }}`"}' \
+        ${{ secrets.DISCORD_WEBHOOK_URL }} || true
