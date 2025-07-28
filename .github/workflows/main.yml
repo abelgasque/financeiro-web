@@ -53,37 +53,9 @@ jobs:
         docker build -t ${{ github.repository }}:${{ github.ref_name }} .
         docker push ${{ github.repository }}:${{ github.ref_name }}
 
-  deploy-github:
-    name: Publish in Github Pages
-    runs-on: ubuntu-latest
-    environment: production
-    steps:
-    - name: Checkout Code
-      uses: actions/checkout@v4
-
-    - name: Setup Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '12.x'
-
-    - name: Install dependencies
-      run: npm install --force && npm i -g angular-cli-ghpages
-      
-    - name: Build Angular App
-      run: npm run build --configuration=production --output-path=dist --base-href=/financeiro-web/
-  
-    - name: Install Github Pages
-      run: npm i -g angular-cli-ghpages
-  
-    - name: Deploy to GitHub Pages
-      uses: JamesIves/github-pages-deploy-action@v4
-      with:
-        branch: gh-pages
-        folder: dist
-
   report-status:
     name: Report Build Status
-    needs: [publish-docker, deploy-github]
+    needs: [publish-docker]
     environment: production
     runs-on: ubuntu-latest
 
