@@ -5,12 +5,12 @@ WORKDIR /app
 RUN npm install -g @angular/cli
 
 COPY ./package.json .
-RUN npm install --force
+RUN npm install --legacy-peer-deps
 
 COPY . .
 
-ENV APP_DEBUG=development
-ENV APP_NAME=app
+ENV APP_DEBUG=production
+ENV APP_NAME=financeiro-web
 ENV APP_VERSION=1.0.0
 
 RUN npm run build --configuration=production

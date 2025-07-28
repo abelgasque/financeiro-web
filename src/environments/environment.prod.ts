@@ -1,10 +1,10 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://protected-stream-77116.herokuapp.com',
-  tokenWhitelistedDomains: [ new RegExp('protected-stream-77116.herokuapp.com') ],
+  apiUrl: 'http://localhost:8080',
+  tokenWhitelistedDomains: [ new RegExp('localhost:8080') ],
   tokenBlacklistedRoutes: [ 
     new RegExp('\/oauth\/token'),
-    new RegExp('\/pessoas\/adicionar'),
+    new RegExp('\/pessoas\/adicionar'), 
     new RegExp('\/usuarios\/validar-autenticacao') 
   ]
 };
