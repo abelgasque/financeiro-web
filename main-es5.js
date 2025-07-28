@@ -2462,12 +2462,12 @@ function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Can
       }, {
         key: "carregarCategorias",
         value: function carregarCategorias() {
-          var _this10 = this;
+          var _this0 = this;
 
           this.categorias = [];
           this.categoriaService.listar().then(function (retorno) {
             if (retorno.length > 0) {
-              _this10.categorias = retorno;
+              _this0.categorias = retorno;
             }
           })["catch"](function (erro) {
             console.log(erro);
@@ -3218,16 +3218,16 @@ function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Can
       }, {
         key: "configurarGraficoPiePorCategoria",
         value: function configurarGraficoPiePorCategoria(id) {
-          var _this11 = this;
+          var _this1 = this;
 
           this.dashboardService.estatisticasLancamentosPorCategoria(id).then(function (dados) {
-            _this11.pieChartLabels = dados.map(function (dado) {
+            _this1.pieChartLabels = dados.map(function (dado) {
               return dado.categoria.nome;
             });
-            _this11.pieChartData = dados.map(function (dado) {
+            _this1.pieChartData = dados.map(function (dado) {
               return dado.total;
             });
-            _this11.displayChartPieCategoria = false;
+            _this1.displayChartPieCategoria = false;
           })["catch"](function (erro) {
             console.log(erro);
           });
@@ -3235,25 +3235,25 @@ function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Can
       }, {
         key: "configurarGraficoPizzaAndCards",
         value: function configurarGraficoPizzaAndCards(id) {
-          var _this12 = this;
+          var _this10 = this;
 
           this.dashboardService.estatisticasLencamentosPorPessoaById(id).then(function (dados) {
             if (dados.length > 0) {
               for (var i = 0; i < dados.length; i++) {
                 if (dados[i].tipo == "RECEITA" && dados[i].total > 0) {
-                  _this12.receitasCard += dados[i].total;
+                  _this10.receitasCard += dados[i].total;
                 }
 
                 if (dados[i].tipo == "DESPESA" && dados[i].total > 0) {
-                  _this12.despesasCard += dados[i].total;
+                  _this10.despesasCard += dados[i].total;
                 }
               }
 
-              _this12.saldoCard = _this12.receitasCard - _this12.despesasCard;
+              _this10.saldoCard = _this10.receitasCard - _this10.despesasCard;
             }
 
-            _this12.displayChartPieCategoria = false;
-            _this12.displayCards = false;
+            _this10.displayChartPieCategoria = false;
+            _this10.displayCards = false;
           })["catch"](function (erro) {
             console.log(erro);
           });
@@ -3261,7 +3261,7 @@ function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Can
       }, {
         key: "confirgurarGraficoDinamic",
         value: function confirgurarGraficoDinamic(ano, idPessoa) {
-          var _this13 = this;
+          var _this11 = this;
 
           this.dashboardService.estatisticasLancamentosPorMes(ano, idPessoa).then(function (response) {
             if (response.length > 0) {
@@ -3269,23 +3269,23 @@ function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Can
 
               for (var i = 0; i < response.length; i++) {
                 if (response[i].tipo == "RECEITA") {
-                  _this13.receitasPieCategoria.push(response[i].total);
+                  _this11.receitasPieCategoria.push(response[i].total);
                 } else {
-                  _this13.despesasPieCategoria.push(response[i].total);
+                  _this11.despesasPieCategoria.push(response[i].total);
                 }
 
                 if (data.getMonth() + 1 == response[i].mes) {
                   if (response[i].tipo == "RECEITA" && response[i].total > 0) {
-                    _this13.receitasPieTipo += response[i].total;
+                    _this11.receitasPieTipo += response[i].total;
                   } else {
-                    _this13.despesasPieTipo += response[i].total;
+                    _this11.despesasPieTipo += response[i].total;
                   }
                 }
               }
             }
 
-            _this13.displayChartPieTipo = false;
-            _this13.displayChartDinamic = false;
+            _this11.displayChartPieTipo = false;
+            _this11.displayChartDinamic = false;
           })["catch"](function (erro) {
             console.log(erro);
           });
@@ -3954,12 +3954,12 @@ function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Can
       }, {
         key: "estatisticasLancamentosPorMes",
         value: function estatisticasLancamentosPorMes(ano, idPessoa) {
-          var _this14 = this;
+          var _this12 = this;
 
           return this.http.get("".concat(this.lancamentosUrl, "/por-mes/").concat(ano, "/").concat(idPessoa)).toPromise().then(function (response) {
             var dados = response;
 
-            _this14.converterStringsParaDatas(dados);
+            _this12.converterStringsParaDatas(dados);
 
             return dados;
           });
@@ -5099,64 +5099,64 @@ function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Can
       }, {
         key: "salvar",
         value: function salvar(f) {
-          var _this15 = this;
+          var _this13 = this;
 
           this.displaySpinner = true;
           this.lancamentosService.salvar(this.lancamento).then(function (response) {
-            _this15.retornoPersistencia.emit(response);
+            _this13.retornoPersistencia.emit(response);
 
-            _this15.eventDisplay.emit(false);
+            _this13.eventDisplay.emit(false);
 
-            _this15.novo(f);
+            _this13.novo(f);
 
-            _this15.toastyService.showSuccess("Lançamento adicionado com sucesso!");
+            _this13.toastyService.showSuccess("Lançamento adicionado com sucesso!");
 
-            _this15.displaySpinner = false;
+            _this13.displaySpinner = false;
           })["catch"](function (erro) {
-            _this15.retornoPersistencia.emit(null);
+            _this13.retornoPersistencia.emit(null);
 
             console.log(erro);
 
-            _this15.toastyService.showError("Erro ao adicionar lançamento!");
+            _this13.toastyService.showError("Erro ao adicionar lançamento!");
 
-            _this15.displaySpinner = false;
+            _this13.displaySpinner = false;
           });
         }
       }, {
         key: "editar",
         value: function editar(f) {
-          var _this16 = this;
+          var _this14 = this;
 
           this.displaySpinner = true;
           this.lancamentosService.editar(this.lancamento).then(function (response) {
-            _this16.retornoPersistencia.emit(response);
+            _this14.retornoPersistencia.emit(response);
 
-            _this16.eventDisplay.emit(false);
+            _this14.eventDisplay.emit(false);
 
-            _this16.novo(f);
+            _this14.novo(f);
 
-            _this16.toastyService.showSuccess("Lancaçamento editado com sucesso!");
+            _this14.toastyService.showSuccess("Lancaçamento editado com sucesso!");
 
-            _this16.displaySpinner = false;
+            _this14.displaySpinner = false;
           })["catch"](function (erro) {
-            _this16.retornoPersistencia.emit(null);
+            _this14.retornoPersistencia.emit(null);
 
             console.log(erro);
 
-            _this16.toastyService.showError("Erro ao editar lançamento!");
+            _this14.toastyService.showError("Erro ao editar lançamento!");
 
-            _this16.displaySpinner = false;
+            _this14.displaySpinner = false;
           });
         }
       }, {
         key: "confirmarEdicao",
         value: function confirmarEdicao(form) {
-          var _this17 = this;
+          var _this15 = this;
 
           this.confirmationService.confirm({
             message: 'Tem certeza que deseja editar lançamento?',
             accept: function accept() {
-              _this17.editar(form);
+              _this15.editar(form);
             }
           });
         }
@@ -5172,34 +5172,34 @@ function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Can
       }, {
         key: "buscarPorId",
         value: function buscarPorId(id) {
-          var _this18 = this;
+          var _this16 = this;
 
           this.displaySpinner = true;
           this.lancamentosService.buscarPorId(id).then(function (response) {
             if (response != null) {
-              _this18.lancamento = response;
-              _this18.lancamento.dataVencimento = moment__WEBPACK_IMPORTED_MODULE_2__(_this18.lancamento.dataVencimento, 'YYYY-MM-DD').toDate();
+              _this16.lancamento = response;
+              _this16.lancamento.dataVencimento = moment__WEBPACK_IMPORTED_MODULE_2__(_this16.lancamento.dataVencimento, 'YYYY-MM-DD').toDate();
 
-              if (_this18.lancamento.dataPagamento != null) {
-                _this18.lancamento.dataPagamento = moment__WEBPACK_IMPORTED_MODULE_2__(_this18.lancamento.dataPagamento, 'YYYY-MM-DD').toDate();
+              if (_this16.lancamento.dataPagamento != null) {
+                _this16.lancamento.dataPagamento = moment__WEBPACK_IMPORTED_MODULE_2__(_this16.lancamento.dataPagamento, 'YYYY-MM-DD').toDate();
               }
             }
 
-            _this18.displaySpinner = false;
+            _this16.displaySpinner = false;
           })["catch"](function (erro) {
             console.log(erro);
-            _this18.displaySpinner = false;
+            _this16.displaySpinner = false;
           });
         }
       }, {
         key: "carregarPessoas",
         value: function carregarPessoas() {
-          var _this19 = this;
+          var _this17 = this;
 
           this.pessoas = [];
           this.pessoasService.listar().then(function (retorno) {
             if (retorno.length > 0) {
-              _this19.pessoas = retorno;
+              _this17.pessoas = retorno;
             }
           })["catch"](function (erro) {
             console.log(erro);
@@ -5208,12 +5208,12 @@ function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Can
       }, {
         key: "carregarCategorias",
         value: function carregarCategorias() {
-          var _this20 = this;
+          var _this18 = this;
 
           this.categorias = [];
           this.categoriaService.listar().then(function (retorno) {
             if (retorno.length > 0) {
-              _this20.categorias = retorno;
+              _this18.categorias = retorno;
             }
           })["catch"](function (erro) {
             console.log(erro);
@@ -6058,27 +6058,27 @@ function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Can
       }, {
         key: "getItems",
         value: function getItems() {
-          var _this21 = this;
+          var _this19 = this;
 
           this.items = [{
             label: 'Filtrar',
             icon: 'pi pi-filter',
             command: function command() {
-              _this21.displayFilter = true;
+              _this19.displayFilter = true;
             }
           }, {
             label: 'Limpar filtro',
             icon: 'pi pi-trash',
             command: function command() {
-              _this21.limparFiltro();
+              _this19.limparFiltro();
 
-              _this21.pesquisar();
+              _this19.pesquisar();
             }
           }, {
             label: 'Novo lançamento',
             icon: 'pi pi-plus',
             command: function command() {
-              _this21.novoLancamento();
+              _this19.novoLancamento();
             }
           }];
         }
@@ -6114,7 +6114,7 @@ function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Can
       }, {
         key: "pesquisar",
         value: function pesquisar() {
-          var _this22 = this;
+          var _this20 = this;
 
           this.displaySpinner = true;
 
@@ -6123,19 +6123,19 @@ function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Can
           }
 
           this.lancamentosService.pesquisar(this.filtro).then(function (response) {
-            _this22.filtro.total = response.total;
-            _this22.lancamentos = response.lancamentos;
-            _this22.displaySpinner = false;
+            _this20.filtro.total = response.total;
+            _this20.lancamentos = response.lancamentos;
+            _this20.displaySpinner = false;
           })["catch"](function (erro) {
-            _this22.toastService.showError("Erro ao pesquisar lançamentos!");
+            _this20.toastService.showError("Erro ao pesquisar lançamentos!");
 
-            _this22.displaySpinner = false;
+            _this20.displaySpinner = false;
           });
         }
       }, {
         key: "buscarPorId",
         value: function buscarPorId(id) {
-          var _this23 = this;
+          var _this21 = this;
 
           this.displaySpinner = true;
           this.lancamentosService.buscarPorId(id).then(function (response) {
@@ -6146,14 +6146,14 @@ function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Can
                 response.dataPagamento = moment__WEBPACK_IMPORTED_MODULE_2__(response.dataPagamento, 'YYYY-MM-DD').toDate();
               }
 
-              _this23.lancamentoForm = response;
-              console.log(_this23.lancamentoForm);
+              _this21.lancamentoForm = response;
+              console.log(_this21.lancamentoForm);
             }
 
-            _this23.displaySpinner = false;
+            _this21.displaySpinner = false;
           })["catch"](function (erro) {
             console.log(erro);
-            _this23.displaySpinner = false;
+            _this21.displaySpinner = false;
           });
         }
       }, {
@@ -6166,35 +6166,35 @@ function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Can
       }, {
         key: "confirmarExclusao",
         value: function confirmarExclusao(id) {
-          var _this24 = this;
+          var _this22 = this;
 
           this.confirmationService.confirm({
             message: 'Tem certeza que deseja excluir lançamento?',
             accept: function accept() {
-              _this24.excluir(id);
+              _this22.excluir(id);
             }
           });
         }
       }, {
         key: "excluir",
         value: function excluir(id) {
-          var _this25 = this;
+          var _this23 = this;
 
           this.displaySpinner = true;
           this.lancamentosService.excluir(id).then(function (retorno) {
-            _this25.toastService.showSuccess("Lançamento excluido com sucesso!");
+            _this23.toastService.showSuccess("Lançamento excluido com sucesso!");
 
-            _this25.pesquisar();
+            _this23.pesquisar();
           })["catch"](function (erro) {
-            _this25.toastService.showError("Erro ao excluir lançamento!");
+            _this23.toastService.showError("Erro ao excluir lançamento!");
 
-            _this25.displaySpinner = false;
+            _this23.displaySpinner = false;
           });
         }
       }, {
         key: "carregarPessoas",
         value: function carregarPessoas() {
-          var _this26 = this;
+          var _this24 = this;
 
           this.pessoasService.listar().then(function (response) {
             if (response.length > 0) {
@@ -6204,7 +6204,7 @@ function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Can
                   'value': response[i].id
                 };
 
-                _this26.pessoas.push(pessoa);
+                _this24.pessoas.push(pessoa);
               }
             }
           })["catch"](function (erro) {
@@ -7505,12 +7505,12 @@ function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Can
       }, {
         key: "confirmarEdicao",
         value: function confirmarEdicao(form) {
-          var _this27 = this;
+          var _this25 = this;
 
           this.confirmationService.confirm({
             message: 'Tem certeza que deseja editar pessoa?',
             accept: function accept() {
-              _this27.alterar(form);
+              _this25.alterar(form);
             }
           });
         }
@@ -7536,21 +7536,21 @@ function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Can
       }, {
         key: "getEnderecoPorCep",
         value: function getEnderecoPorCep(cep) {
-          var _this28 = this;
+          var _this26 = this;
 
           this.displaySpinner = true;
           this.apoioService.getEnderecoPorCep(cep).then(function (response) {
             if (response != null) {
-              _this28.pessoa.endereco.uf = response.uf;
-              _this28.pessoa.endereco.cidade = response.localidade;
-              _this28.pessoa.endereco.bairro = response.bairro;
-              _this28.pessoa.endereco.logradouro = response.logradouro;
+              _this26.pessoa.endereco.uf = response.uf;
+              _this26.pessoa.endereco.cidade = response.localidade;
+              _this26.pessoa.endereco.bairro = response.bairro;
+              _this26.pessoa.endereco.logradouro = response.logradouro;
             }
 
-            _this28.displaySpinner = false;
+            _this26.displaySpinner = false;
           })["catch"](function (erro) {
             console.log(erro);
-            _this28.displaySpinner = false;
+            _this26.displaySpinner = false;
           });
         }
       }, {
@@ -7565,66 +7565,66 @@ function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Can
       }, {
         key: "salvar",
         value: function salvar(form) {
-          var _this29 = this;
+          var _this27 = this;
 
           this.displaySpinner = true;
           this.pessoaService.salvar(this.pessoa).then(function (response) {
-            _this29.novo(form);
+            _this27.novo(form);
 
-            _this29.retornoPersistencia.emit(response);
+            _this27.retornoPersistencia.emit(response);
 
-            _this29.eventDisplay.emit(false);
+            _this27.eventDisplay.emit(false);
 
-            _this29.carregarListaUsuarios();
+            _this27.carregarListaUsuarios();
 
-            _this29.toastyService.showSuccess("Pessoa adicionada com sucesso!");
+            _this27.toastyService.showSuccess("Pessoa adicionada com sucesso!");
 
-            _this29.displaySpinner = false;
+            _this27.displaySpinner = false;
           })["catch"](function (erro) {
-            _this29.retornoPersistencia.emit(null);
+            _this27.retornoPersistencia.emit(null);
 
             console.log(erro);
 
-            _this29.toastyService.showError("Erro ao adicionar pessoa!");
+            _this27.toastyService.showError("Erro ao adicionar pessoa!");
 
-            _this29.displaySpinner = false;
+            _this27.displaySpinner = false;
           });
         }
       }, {
         key: "alterar",
         value: function alterar(form) {
-          var _this30 = this;
+          var _this28 = this;
 
           this.displaySpinner = true;
           this.pessoaService.editar(this.pessoa).then(function (response) {
-            _this30.novo(form);
+            _this28.novo(form);
 
-            _this30.retornoPersistencia.emit(response);
+            _this28.retornoPersistencia.emit(response);
 
-            _this30.eventDisplay.emit(false);
+            _this28.eventDisplay.emit(false);
 
-            _this30.toastyService.showSuccess("Pessoa editada com sucesso!");
+            _this28.toastyService.showSuccess("Pessoa editada com sucesso!");
 
-            _this30.displaySpinner = false;
+            _this28.displaySpinner = false;
           })["catch"](function (erro) {
-            _this30.retornoPersistencia.emit(null);
+            _this28.retornoPersistencia.emit(null);
 
             console.log(erro);
 
-            _this30.toastyService.showError("Erro ao editar pessoa!");
+            _this28.toastyService.showError("Erro ao editar pessoa!");
 
-            _this30.displaySpinner = false;
+            _this28.displaySpinner = false;
           });
         }
       }, {
         key: "carregarListaUsuariosDisponiveis",
         value: function carregarListaUsuariosDisponiveis() {
-          var _this31 = this;
+          var _this29 = this;
 
           this.usuarios = [];
           this.usuariosService.listarDisponiveis().then(function (response) {
             if (response.length > 0) {
-              _this31.usuarios = response;
+              _this29.usuarios = response;
             }
           })["catch"](function (error) {
             console.log(error);
@@ -7633,12 +7633,12 @@ function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Can
       }, {
         key: "carregarListaUsuarios",
         value: function carregarListaUsuarios() {
-          var _this32 = this;
+          var _this30 = this;
 
           this.usuarios = [];
           this.usuariosService.listar().then(function (response) {
             if (response.length > 0) {
-              _this32.usuarios = response;
+              _this30.usuarios = response;
             }
           })["catch"](function (error) {
             console.log(error);
@@ -8510,53 +8510,53 @@ function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Can
       }, {
         key: "pesquisar",
         value: function pesquisar() {
-          var _this33 = this;
+          var _this31 = this;
 
           this.displaySpinner = true;
           this.pessoaService.pesquisar(this.filtro).then(function (response) {
-            _this33.filtro.total = response.total;
-            _this33.pessoas = response.pessoas;
-            _this33.displaySpinner = false;
+            _this31.filtro.total = response.total;
+            _this31.pessoas = response.pessoas;
+            _this31.displaySpinner = false;
           })["catch"](function (erro) {
             console.log(erro);
 
-            _this33.toastService.showError("Erro ao pesquisar pessoas");
+            _this31.toastService.showError("Erro ao pesquisar pessoas");
 
-            _this33.displaySpinner = false;
+            _this31.displaySpinner = false;
           });
         }
       }, {
         key: "confirmarExclusao",
         value: function confirmarExclusao(id) {
-          var _this34 = this;
+          var _this32 = this;
 
           this.confirmationService.confirm({
             message: 'Tem certeza que deseja excluir pessoa?',
             accept: function accept() {
-              _this34.excluir(id);
+              _this32.excluir(id);
             }
           });
         }
       }, {
         key: "excluir",
         value: function excluir(id) {
-          var _this35 = this;
+          var _this33 = this;
 
           this.displaySpinner = true;
           this.pessoaService.excluir(id).then(function (retorno) {
-            _this35.toastService.showSuccess("Pessoa excluida com sucesso!");
+            _this33.toastService.showSuccess("Pessoa excluida com sucesso!");
 
-            _this35.pesquisar();
+            _this33.pesquisar();
           })["catch"](function (erro) {
-            _this35.toastService.showError("Erro ao excluir pessoa!");
+            _this33.toastService.showError("Erro ao excluir pessoa!");
 
-            _this35.displaySpinner = false;
+            _this33.displaySpinner = false;
           });
         }
       }, {
         key: "buscarPorId",
         value: function buscarPorId(id) {
-          var _this36 = this;
+          var _this34 = this;
 
           this.displaySpinner = true;
           this.pessoaForm = new src_app_core_model__WEBPACK_IMPORTED_MODULE_1__["Pessoa"]();
@@ -8566,16 +8566,16 @@ function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Can
                 response.endereco = new src_app_core_model__WEBPACK_IMPORTED_MODULE_1__["Endereco"]();
               }
 
-              _this36.pessoaForm = response;
+              _this34.pessoaForm = response;
             }
 
-            _this36.displaySpinner = false;
+            _this34.displaySpinner = false;
           })["catch"](function (erro) {
             console.log(erro);
 
-            _this36.toastService.showError("Erro ao buscar pessoa!");
+            _this34.toastService.showError("Erro ao buscar pessoa!");
 
-            _this36.displaySpinner = false;
+            _this34.displaySpinner = false;
           });
         }
       }, {
@@ -9678,13 +9678,13 @@ function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Can
       return _createClass(AuthGuard, [{
         key: "canActivate",
         value: function canActivate(next, state) {
-          var _this37 = this;
+          var _this35 = this;
 
           if (this.auth.isAccessTokenInvalido()) {
             console.log('Navegação com access token inválido. Obtendo novo token...');
             return this.auth.obterNovoAccessToken().then(function () {
-              if (_this37.auth.isAccessTokenInvalido()) {
-                _this37.router.navigate(['/seguranca', 'login-autenticacao']);
+              if (_this35.auth.isAccessTokenInvalido()) {
+                _this35.router.navigate(['/seguranca', 'login-autenticacao']);
 
                 return false;
               }
@@ -9794,7 +9794,7 @@ function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Can
       return _createClass(AuthService, [{
         key: "login",
         value: function login(usuario, senha) {
-          var _this38 = this;
+          var _this36 = this;
 
           var headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpHeaders"]().append('Content-Type', 'application/x-www-form-urlencoded').append('Authorization', 'Basic YW5ndWxhcjpAbmd1bEByMA==');
           var body = "username=".concat(usuario, "&password=").concat(senha, "&grant_type=password");
@@ -9802,7 +9802,7 @@ function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Can
             headers: headers,
             withCredentials: true
           }).toPromise().then(function (response) {
-            _this38.armazenarToken(response.access_token);
+            _this36.armazenarToken(response.access_token);
           })["catch"](function (response) {
             console.log(response);
 
@@ -9818,7 +9818,7 @@ function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Can
       }, {
         key: "obterNovoAccessToken",
         value: function obterNovoAccessToken() {
-          var _this39 = this;
+          var _this37 = this;
 
           var headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpHeaders"]().append('Content-Type', 'application/x-www-form-urlencoded').append('Authorization', 'Basic YW5ndWxhcjpAbmd1bEByMA==');
           var body = 'grant_type=refresh_token';
@@ -9826,12 +9826,12 @@ function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Can
             headers: headers,
             withCredentials: true
           }).toPromise().then(function (response) {
-            _this39.armazenarToken(response.access_token);
+            _this37.armazenarToken(response.access_token);
 
             console.log('Novo access token criado!');
             return Promise.resolve(null);
           })["catch"](function (response) {
-            _this39.router.navigate(['/seguranca', 'login-autenticacao']);
+            _this37.router.navigate(['/seguranca', 'login-autenticacao']);
 
             console.error('Erro ao renovar token.', response);
             return Promise.resolve(null);
@@ -10082,76 +10082,76 @@ function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Can
       }, {
         key: "buscarIdPessoaByIdUsuario",
         value: function buscarIdPessoaByIdUsuario(id) {
-          var _this40 = this;
+          var _this38 = this;
 
           this.pessoasService.buscarPorUsuarioId(id).then(function (response) {
             if (response != null) {
-              _this40.apoioService.armazenarIdPessoaStorage(response.id);
+              _this38.apoioService.armazenarIdPessoaStorage(response.id);
             }
 
-            _this40.gerenciarRedirect();
+            _this38.gerenciarRedirect();
           })["catch"](function (error) {
-            _this40.errorHandler.handle(error);
+            _this38.errorHandler.handle(error);
           });
         }
       }, {
         key: "buscarIdUsuarioByEmail",
         value: function buscarIdUsuarioByEmail() {
-          var _this41 = this;
+          var _this39 = this;
 
           this.displaySpinner = true;
           this.usuarioService.buscarPorEmail(this.authService.jwtPayload.user_name).then(function (usuario) {
-            _this41.apoioService.armazenarIdUsuarioStorage(usuario.id);
+            _this39.apoioService.armazenarIdUsuarioStorage(usuario.id);
 
-            _this41.buscarIdPessoaByIdUsuario(usuario.id);
+            _this39.buscarIdPessoaByIdUsuario(usuario.id);
 
-            _this41.displaySpinner = false;
+            _this39.displaySpinner = false;
           })["catch"](function (error) {
             console.log(error);
 
-            _this41.errorHandler.handle(error);
+            _this39.errorHandler.handle(error);
 
-            _this41.displaySpinner = false;
+            _this39.displaySpinner = false;
           });
         }
       }, {
         key: "autenticarLogin",
         value: function autenticarLogin() {
-          var _this42 = this;
+          var _this40 = this;
 
           this.displaySpinner = true;
           this.authService.login(this.usuario.email, this.usuario.senha).then(function (response) {
-            _this42.buscarIdUsuarioByEmail();
+            _this40.buscarIdUsuarioByEmail();
 
-            _this42.displaySpinner = false;
+            _this40.displaySpinner = false;
           })["catch"](function (erro) {
             console.log(erro);
 
-            _this42.errorHandler.handle(erro);
+            _this40.errorHandler.handle(erro);
 
-            _this42.displaySpinner = false;
+            _this40.displaySpinner = false;
           });
         }
       }, {
         key: "validar",
         value: function validar() {
-          var _this43 = this;
+          var _this41 = this;
 
           this.displaySpinner = true;
           this.usuarioService.validarAutenticacao(this.usuario.email).then(function (response) {
-            _this43.displaySpinner = false;
+            _this41.displaySpinner = false;
 
             if (response == true) {
-              _this43.autenticarLogin();
+              _this41.autenticarLogin();
             } else {
-              _this43.toastService.showWarn("Usuário inativo entre contato com administrador sistema");
+              _this41.toastService.showWarn("Usuário inativo entre contato com administrador sistema");
             }
           })["catch"](function (response) {
             console.log(response);
 
-            _this43.errorHandler.handle(response);
+            _this41.errorHandler.handle(response);
 
-            _this43.displaySpinner = false;
+            _this41.displaySpinner = false;
           });
         }
       }]);
@@ -10397,12 +10397,12 @@ function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Can
       return _createClass(LogoutService, [{
         key: "logout",
         value: function logout() {
-          var _this44 = this;
+          var _this42 = this;
 
           return this.http["delete"](this.tokensRenokeUrl, {
             withCredentials: true
           }).toPromise().then(function () {
-            _this44.auth.limparAccessToken();
+            _this42.auth.limparAccessToken();
           });
         }
       }]);
@@ -10592,7 +10592,7 @@ function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Can
       }, {
         key: "buscarPorId",
         value: function buscarPorId(id) {
-          var _this45 = this;
+          var _this43 = this;
 
           this.displaySpinner = true;
           this.pessoaService.buscarPorId(id).then(function (response) {
@@ -10602,36 +10602,36 @@ function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Can
               }
 
               response.usuario.senha = null;
-              _this45.pessoa = response;
+              _this43.pessoa = response;
             }
 
-            _this45.displaySpinner = false;
+            _this43.displaySpinner = false;
           })["catch"](function (erro) {
             console.log(erro);
 
-            _this45.toastService.showError("Erro ao buscar pessoa!");
+            _this43.toastService.showError("Erro ao buscar pessoa!");
 
-            _this45.displaySpinner = false;
+            _this43.displaySpinner = false;
           });
         }
       }, {
         key: "getEnderecoPorCep",
         value: function getEnderecoPorCep(cep) {
-          var _this46 = this;
+          var _this44 = this;
 
           this.displaySpinner = true;
           this.apoioService.getEnderecoPorCep(cep).then(function (response) {
             if (response != null) {
-              _this46.pessoa.endereco.uf = response.uf;
-              _this46.pessoa.endereco.cidade = response.localidade;
-              _this46.pessoa.endereco.bairro = response.bairro;
-              _this46.pessoa.endereco.logradouro = response.logradouro;
+              _this44.pessoa.endereco.uf = response.uf;
+              _this44.pessoa.endereco.cidade = response.localidade;
+              _this44.pessoa.endereco.bairro = response.bairro;
+              _this44.pessoa.endereco.logradouro = response.logradouro;
             }
 
-            _this46.displaySpinner = false;
+            _this44.displaySpinner = false;
           })["catch"](function (erro) {
             console.log(erro);
-            _this46.displaySpinner = false;
+            _this44.displaySpinner = false;
           });
         }
       }, {
@@ -10643,7 +10643,7 @@ function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Can
       }, {
         key: "adicionar",
         value: function adicionar() {
-          var _this47 = this;
+          var _this45 = this;
 
           if (this.pessoa.usuario.senha != this.confirmarSenha) {
             this.toastService.showWarn("Senha e confirma senha devem ser iguais!");
@@ -10660,30 +10660,30 @@ function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Can
             }
 
             this.pessoaService.salvar(this.pessoa).then(function (response) {
-              _this47.cancelar();
+              _this45.cancelar();
 
-              _this47.router.navigate(['/seguranca', 'login-autenticacao']);
+              _this45.router.navigate(['/seguranca', 'login-autenticacao']);
 
-              _this47.toastService.showSuccess("Pessoa adicionada com sucesso!");
+              _this45.toastService.showSuccess("Pessoa adicionada com sucesso!");
 
-              _this47.displaySpinner = false;
+              _this45.displaySpinner = false;
             })["catch"](function (error) {
               console.log(error);
 
               if (error.status == 409) {
-                _this47.toastService.showWarn(error.error.message);
+                _this45.toastService.showWarn(error.error.message);
               } else {
-                _this47.toastService.showError("Erro ao adicionar pessoa");
+                _this45.toastService.showError("Erro ao adicionar pessoa");
               }
 
-              _this47.displaySpinner = false;
+              _this45.displaySpinner = false;
             });
           }
         }
       }, {
         key: "edicao",
         value: function edicao() {
-          var _this48 = this;
+          var _this46 = this;
 
           this.displaySpinner = true;
 
@@ -10692,30 +10692,30 @@ function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Can
           }
 
           this.pessoaService.editar(this.pessoa).then(function (response) {
-            _this48.toastService.showSuccess("Pessoa editada com sucesso!");
+            _this46.toastService.showSuccess("Pessoa editada com sucesso!");
 
-            _this48.displaySpinner = false;
+            _this46.displaySpinner = false;
           })["catch"](function (error) {
             console.log(error);
 
             if (error.status == 409) {
-              _this48.toastService.showWarn(error.error.message);
+              _this46.toastService.showWarn(error.error.message);
             } else {
-              _this48.toastService.showError("Erro ao editar pessoa");
+              _this46.toastService.showError("Erro ao editar pessoa");
             }
 
-            _this48.displaySpinner = false;
+            _this46.displaySpinner = false;
           });
         }
       }, {
         key: "confirmarEdicao",
         value: function confirmarEdicao() {
-          var _this49 = this;
+          var _this47 = this;
 
           this.confirmationService.confirm({
             message: 'Tem certeza que deseja excluir lançamento?',
             accept: function accept() {
-              _this49.edicao();
+              _this47.edicao();
             }
           });
         }
@@ -12302,14 +12302,14 @@ function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Can
       }, {
         key: "logout",
         value: function logout() {
-          var _this50 = this;
+          var _this48 = this;
 
           this.logoutService.logout().then(function (response) {
-            _this50.router.navigate(['']);
+            _this48.router.navigate(['']);
 
-            _this50.gerenciarBtnNavbar = false;
+            _this48.gerenciarBtnNavbar = false;
           })["catch"](function (erro) {
-            return _this50.errorHandler.handle(erro);
+            return _this48.errorHandler.handle(erro);
           });
         }
       }]);
@@ -13753,54 +13753,54 @@ function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Can
       }, {
         key: "adicionar",
         value: function adicionar(form) {
-          var _this51 = this;
+          var _this49 = this;
 
           this.usuariosService.salvar(this.usuario).then(function (response) {
-            _this51.retornoPersistencia.emit(response);
+            _this49.retornoPersistencia.emit(response);
 
-            _this51.fecharDisplay(form);
+            _this49.fecharDisplay(form);
 
-            _this51.toastService.showSuccess("Usuario adicionado com sucesso!");
+            _this49.toastService.showSuccess("Usuario adicionado com sucesso!");
           })["catch"](function (error) {
             console.log(error);
 
             if (error.status == 409) {
-              _this51.toastService.showError(error.error.message);
+              _this49.toastService.showError(error.error.message);
             } else {
-              _this51.toastService.showError("Erro ao adicionar usuário!");
+              _this49.toastService.showError("Erro ao adicionar usuário!");
             }
           });
         }
       }, {
         key: "editar",
         value: function editar(form) {
-          var _this52 = this;
+          var _this50 = this;
 
           this.usuariosService.editar(this.usuario).then(function (response) {
-            _this52.retornoPersistencia.emit(response);
+            _this50.retornoPersistencia.emit(response);
 
-            _this52.fecharDisplay(form);
+            _this50.fecharDisplay(form);
 
-            _this52.toastService.showSuccess("Usuario editado com sucesso!");
+            _this50.toastService.showSuccess("Usuario editado com sucesso!");
           })["catch"](function (error) {
             console.log(error);
 
             if (error.status == 409) {
-              _this52.toastService.showError(error.error.message);
+              _this50.toastService.showError(error.error.message);
             } else {
-              _this52.toastService.showError("Erro ao editar usuário!");
+              _this50.toastService.showError("Erro ao editar usuário!");
             }
           });
         }
       }, {
         key: "confirmarEdicao",
         value: function confirmarEdicao(form) {
-          var _this53 = this;
+          var _this51 = this;
 
           this.confirmationService.confirm({
             message: 'Tem certeza que deseja editar usuário?',
             accept: function accept() {
-              _this53.editar(form);
+              _this51.editar(form);
             }
           });
         }
@@ -13820,10 +13820,10 @@ function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Can
       }, {
         key: "carregarPermissoes",
         value: function carregarPermissoes() {
-          var _this54 = this;
+          var _this52 = this;
 
           this.usuariosService.listarPermissoes().then(function (response) {
-            _this54.listaPermissoes = response;
+            _this52.listaPermissoes = response;
           })["catch"](function (error) {
             console.log(error);
           });
@@ -14407,50 +14407,50 @@ function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Can
       }, {
         key: "getTabela",
         value: function getTabela() {
-          var _this55 = this;
+          var _this53 = this;
 
           this.displaySpinner = true;
           this.usuarios = [];
           this.usuariosService.listar().then(function (response) {
-            _this55.usuarios = response;
-            _this55.displaySpinner = false;
+            _this53.usuarios = response;
+            _this53.displaySpinner = false;
           })["catch"](function (error) {
             console.log(error);
-            _this55.displaySpinner = false;
+            _this53.displaySpinner = false;
 
-            _this55.toastService.showError("Erro ao listar usuários");
+            _this53.toastService.showError("Erro ao listar usuários");
           });
         }
       }, {
         key: "confirmarExclusao",
         value: function confirmarExclusao(id) {
-          var _this56 = this;
+          var _this54 = this;
 
           this.confirmationService.confirm({
             message: 'Tem certeza que deseja excluir usuário?',
             accept: function accept() {
-              _this56.excluirById(id);
+              _this54.excluirById(id);
             }
           });
         }
       }, {
         key: "excluirById",
         value: function excluirById(id) {
-          var _this57 = this;
+          var _this55 = this;
 
           this.displaySpinner = true;
           this.usuariosService.excluir(id).then(function (response) {
-            _this57.getTabela();
+            _this55.getTabela();
 
-            _this57.displaySpinner = false;
+            _this55.displaySpinner = false;
           })["catch"](function (error) {
             console.log(error);
-            _this57.displaySpinner = false;
+            _this55.displaySpinner = false;
 
             if (error.status == 409) {
-              _this57.toastService.showError("Erro ao excluir. Usuário vinculado a uma pessoa.");
+              _this55.toastService.showError("Erro ao excluir. Usuário vinculado a uma pessoa.");
             } else {
-              _this57.toastService.showError("Erro ao excluir usuário");
+              _this55.toastService.showError("Erro ao excluir usuário");
             }
           });
         }
@@ -14463,18 +14463,18 @@ function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Can
       }, {
         key: "buscarPorId",
         value: function buscarPorId(id) {
-          var _this58 = this;
+          var _this56 = this;
 
           this.displaySpinner = true;
           this.usuario = new _core_model__WEBPACK_IMPORTED_MODULE_1__["Usuario"]();
           this.usuariosService.buscarPorId(id).then(function (response) {
-            _this58.usuario = response;
-            _this58.displaySpinner = false;
+            _this56.usuario = response;
+            _this56.displaySpinner = false;
           })["catch"](function (error) {
             console.log(error);
-            _this58.displaySpinner = false;
+            _this56.displaySpinner = false;
 
-            _this58.toastService.showError("Erro ao buscar usuário");
+            _this56.toastService.showError("Erro ao buscar usuário");
           });
         }
       }]);
