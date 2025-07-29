@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://localhost:8080',
-  tokenWhitelistedDomains: [ new RegExp('localhost:8080') ],
+  apiUrl: 'https://financeiro-api-w8um.onrender.com',
+  tokenWhitelistedDomains: [ new RegExp('financeiro-api-w8um.onrender.com') ],
   tokenBlacklistedRoutes: [ 
     new RegExp('\/oauth\/token'),
     new RegExp('\/pessoas\/adicionar'), 
